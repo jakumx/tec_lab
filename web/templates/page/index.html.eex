@@ -1,0 +1,4 @@
+<%= form_for @conn, page_path(@conn, :new), [as: :file, multipart: true], fn f -> %>
+  <%= file_input f, :for %>
+  <%= submit "Save" %>
+<% end %> 
