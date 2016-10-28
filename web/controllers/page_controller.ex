@@ -1,26 +1,27 @@
 defmodule TecLab.PageController do
   use TecLab.Web, :controller
 
-  alias TecLab.Page
-
   def index(conn, _params) do
     render conn, "index.html"
   end
 
   def new(conn, params) do
-    IO.inspect params
     file = params["file"]
 
     if (file["for"].path) do
       # read the file
       file_content = File.read!(file["for"].path)
+        # |> String.replace("\"", "")
+        |> String.split("\n")
       file_name = file["for"].filename
-
-      # encrypt file
-      file_crypt = Crypt.en(file_content, file_name)
-
-      #insert to redis
-      Redis.set(file_name, file_crypt)
+        
+      for n <- file_content do
+        file_row = String.split(n, ",")
+        file_crypt = Crypt.en(n)
+        first = Enum.at(file_row,0)
+          |> String.replace("\"", "")
+        Redis.set(first, file_crypt)
+      end
 
       render(conn, "success.html",  file: file_name)
     else
@@ -32,8 +33,6 @@ end
 
 defmodule TecLab.FindController do
   use TecLab.Web, :controller
-
-  alias TecLab.Find
 
   def index(conn, _params) do
     render conn, "index.html"

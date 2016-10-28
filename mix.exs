@@ -35,6 +35,7 @@ defmodule TecLab.Mixfile do
      {:phoenix_ecto, "~> 1.2.0"},
      {:exredis, ">= 0.2.4"},
      {:mongodb_ecto, ">= 0.1.4"},
+     {:csv, "~> 1.4.0"},
      {:phoenix_html, "~> 2.6.2"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
